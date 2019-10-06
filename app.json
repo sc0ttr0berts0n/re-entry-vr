@@ -1,0 +1,6 @@
+{
+  "name": "Eject",
+  "description": "A 2d, Physics-based Platform Brawler",
+  "repository": "https://github.com/sc0ttr0berts0n/escape-pod",
+  "keywords": ["game", "eject", "node"]
+}
