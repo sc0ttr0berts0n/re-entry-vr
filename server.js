@@ -7,10 +7,6 @@ var app = express();
 
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('*', (_req, res) => {
-  res.sendFile(path.join(__dirname, 'build/index.html'));
-});
-
 app.listen(port, err => {
   if (err) {
     console.log(err);
