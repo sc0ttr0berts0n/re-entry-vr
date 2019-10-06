@@ -1,18 +1,19 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const PATHS = {
   app: path.join(__dirname, 'src'),
-  build: path.join(__dirname, 'build'),
+  build: path.join(__dirname, 'build')
 };
 
 module.exports = {
   entry: {
-    app: PATHS.app,
+    app: PATHS.app
   },
   output: {
     path: PATHS.build,
-    filename: '[name].js',
+    filename: '[name].js'
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -24,16 +25,19 @@ module.exports = {
     overlay: {
       errors: true,
       warnings: false
-    }
+    },
+    contentBase: path.join(__dirname, 'src/static'),
+    host: '192.168.1.173',
+    port: '8080'
   },
   module: {
     rules: [
       {
         test: /\.js$/,
         enforce: 'pre',
-        loader: "eslint-loader",
+        loader: 'eslint-loader',
         options: {
-          emitwarning: true,
+          emitwarning: true
         }
       },
       {
@@ -45,6 +49,6 @@ module.exports = {
           }
         }
       }
-    ],
-  },
+    ]
+  }
 };

@@ -4,7 +4,7 @@
   "description": "A-frame Boilerplate using webpack",
   "main": "app.js",
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack --mode production --host 192.168.1.173",
     "start": "yarn run build && node server.js",
     "server": "webpack-dev-server --mode development"
   },
@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/samhoudmedia/aframe-boilerplate#readme",
   "devDependencies": {
+    "copy-webpack-plugin": "^5.0.4",
     "eslint": "^4.18.2",
     "eslint-loader": "^2.0.0",
     "html-loader": "^0.5.5",
@@ -33,9 +34,10 @@
     "webpack-dev-server": "^3.1.1"
   },
   "dependencies": {
+    "aframe": "^0.8.1",
+    "aframe-star-system-component": "^1.0.0",
     "express": "^4.17.1",
-    "webpack": "^4.20.2",
-    "aframe": "^0.8.1"
+    "webpack": "^4.20.2"
   },
   "engines": {
     "yarn": "1.x"
