@@ -8,14 +8,22 @@
   <script src="https://cdn.rawgit.com/matthewbryancurtis/aframe-star-system-component/db4f1030/index.js"></script>
   <script src="https://unpkg.com/aframe-supercraft-loader/dist/aframe-supercraft-loader.min.js"></script>
   <script src="https://unpkg.com/aframe-particle-system-component@1.0.x/dist/aframe-particle-system-component.min.js"></script>
+  <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/super-hands@3.0.0/dist/super-hands.min.js"></script>
+  <script src="https://unpkg.com/aframe-log-component/dist/aframe-log-component.min.js"></script>
   <script src="/components/escape-pod.js"></script>
+  <script src="/components/escape-pod-stage.js"></script>
+  <script src="/components/control-knob.js"></script>
   <title>A-Frame Boilerplate</title>
 </head>
 <body>
-  <a-scene loading-screen>
+  <a-scene loading-screen stats>
     <a-assets>
       <audio id="ambient-wario" src="/audio/ambient-wario.mp3"></audio>
       <img src="/images/speed-particle.png" id="speed-particle" />
+      <a-asset-item id="escape-pod-asset" src="/models/escape-pod.obj"></a-asset-item>
+      <a-asset-item id="control-knob-asset" src="/models/control-knob.obj"></a-asset-item>
+      <a-asset-item id="helmet" src="/models/astronaut_helmet/scene.gltf"></a-asset-item>
     </a-assets>
 
     <!-- Controllers -->
@@ -23,51 +31,62 @@
     <a-entity oculus-touch-controls="hand: right"></a-entity>
 
     <!-- Far Assets -->
-    <a-entity light="type: directional; color: #fdb813; intensity: 0.5" position="0 0 -1000"></a-entity>
-    <a-entity light="type: ambient; color: #000; intensity: 0.025" position="0 0 -1000"></a-entity>
-    <a-sky id="starfield-background" material="color:#15001a" geometry="" radius="10000"></a-sky>
-    <a-entity id="starfield-stars" star-system="color: #b0b0ff; ; count:1000"></a-entity>\
-    <a-sphere id="sun" position="0 0 -8000" material="color:#fdb813;emissive:#fdb813" geometry="radius:500" ></a-sphere>
+    <a-entity light="type: directional; color: #fdb813; intensity: 1" position="0 0 -1000"></a-entity>
+    <a-sky id="starfield-background" material="color:#15001a" radius="10000"></a-sky>
+    <a-entity id="starfield-stars" star-system="color: #b0b0ff; count:1000"></a-entity>\
+    <a-sphere id="sun" position="0 0 -8000" material="color:#fdb813; emissive:#fdb813" geometry="radius:500" ></a-sphere>
+    <a-sphere id="planet" position="0 0 1000" material="color:#50ff50; emissive:#50ff50" geometry="radius:300" ></a-sphere>
 
-    <!-- Close Assets -->
-    <!-- <a-plane id="temp-plane" position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane> -->
 
     <!-- Reference Frame -->
-    <a-entity id="escape-pod-stage" position="0 0 -4">
+    <a-entity id="escape-pod-stage" position="0 0 -4" rotation="0 0 0" escape-pod-stage>
 
       <a-entity
+        id="particle-system"
         position="0 5 0"
         particle-system="
           maxAge: 1;
-          positionSpread: 100 20 100;
+          positionSpread: 50 50 50;
           type: 3;
           rotationAxis: x;
           rotationAngle: 0;
           rotationAngleSpread: 0;
           accelerationValue: 0 0.00001 0;
           accelerationSpread: 0 0.00001 0;
-          velocityValue: 0 -10 0;
+          velocityValue: 0 0 -2
           velocitySpread: 0 0.0001 0;
           dragValue: 0 0 0;
           dragSpread: 0 0.00001 0;
           dragRandomise: false;
           color: #ffffff;
-          size: 0.1;
+          size: 0.2;
           direction: 1;
           duration: null;
           enabled: true;
-          particleCount: 750;
+          particleCount: 500;
           randomizse: false;
           opacity: 0.4;
           texture: /images/speed-particle.png;
           ">
       </a-entity>
-      <a-entity id="escape-pod" escape-pod supercraft-loader="name: thin-sisters; includeEnvironment: false" >
-        <!-- <a-entity id="camera" position="0 1.8 -0.75" rotation="0 0 0" camera look-controls wasd-controls="fly: true"></a-entity> -->
+      <a-entity id="escape-pod-wrapper" escape-pod>
+
+        <a-entity id="escape-pod" scale="0.001 0.001 0.001" rotation="-90 -180 0" obj-model="obj: #escape-pod-asset" material="color: #504050;"></a-entity>
+        <a-entity id="control-knob" control-knob position="-0.4 1 -0.4" scale="0.0008 0.0008 0.0008" rotation="-90 60 0" obj-model="obj: #control-knob-asset" hoverable></a-entity>
+        <a-entity id="camera" position="0 1.8 0.5" camera look-controls wasd-controls="fly: true">
+            <!-- <a-entity gltf-model="#helmet" position="0 -0.15 0" scale="0.01 0.01 0.01" rotation="0 180 0"></a-entity> -->
+            <a-log position="0 0 -3"></a-log>
+        </a-entity>
+        <a-entity sphere-collider="objects: #control-knob; radius: 2;" super-hands hand-controls="left"></a-entity>
+        <a-entity sphere-collider="objects: #control-knob; radius: 2;" super-hands hand-controls="right"></a-entity>
+        <a-light type="point" color="#ff50ff" intensity="0.1" position="0 1.99 0"></a-light>
       </a-entity>
+
     </a-entity>
-    <a-entity id="camera" position="-2 1.8 8" camera look-controls wasd-controls="fly: true"></a-entity>
-    <a-sound src="#ambient-wario" autoplay="true" position="0 0 -2"></a-sound>
+    </a-entity rotation="90 180 90">
+      <!-- <a-entity id="camera" posistion="-2 1.8 8" camera look-controls rotation="0 180 0" wasd-controls="fly: true"></a-entity> -->
+    </a-entity>
+    <!-- <a-sound src="#ambient-wario" autoplay="true" position="0 0 -2"></a-sound> -->
   </a-scene>
 </body>
 </html>
