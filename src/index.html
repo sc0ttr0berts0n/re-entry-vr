@@ -21,20 +21,31 @@
     <a-assets>
       <audio id="ambient-wario" src="/audio/ambient-wario.mp3"></audio>
       <img src="/images/speed-particle.png" id="speed-particle" />
-      <a-asset-item id="escape-pod-asset" src="/models/escape-pod.obj"></a-asset-item>
       <a-asset-item id="control-knob-asset" src="/models/control-knob.obj"></a-asset-item>
       <a-asset-item id="helmet" src="/models/astronaut_helmet/scene.gltf"></a-asset-item>
+      <a-asset-item id="monster" src="/models/monster.glb"></a-asset-item>
+
+      <!-- Escape Pod Assets -->
+      <a-asset-item id="escape-pod-asset" src="/models/escape-pod.obj"></a-asset-item>
+      <img id="escape-pod-mat-base" src="/materials/escape-pod/metalgrid3_basecolor.png" />
+      <img id="escape-pod-mat-metallic" src="/materials/escape-pod/metalgrid3_metallic.png" />
+      <img id="escape-pod-mat-normal" src="/materials/escape-pod/metalgrid3_normal-dx.png" />
+      <img id="escape-pod-mat-roughness" src="/materials/escape-pod/metalgrid3_roughness.png" />
+      <a-mixin
+        id="escape-pod-mix"
+        material="color: #eeeeff;  src: #escape-pod-mat-base; repeat: 0.01 0.01; normalMap: #escape-pod-mat-normal; normalScale: 0.5 0.5; normalTextureRepeat: 100 100; metalnessMap: #escape-pod-mat-metallic; metalness: 0.6; metalnessTextureRepeat: 100 100 roughnessMap: #escape-pod-mat-roughness; roughness: 0.1; roughnessTextureRepeat: 100 100"
+        obj-model="obj: #escape-pod-asset"
+      >
+      </a-mixin>
     </a-assets>
 
     <!-- Controllers -->
-    <a-entity oculus-touch-controls="hand: left"></a-entity>
-    <a-entity oculus-touch-controls="hand: right"></a-entity>
 
     <!-- Far Assets -->
-    <a-entity light="type: directional; color: #fdb813; intensity: 1" position="0 0 -1000"></a-entity>
     <a-sky id="starfield-background" material="color:#15001a" radius="10000"></a-sky>
     <a-entity id="starfield-stars" star-system="color: #b0b0ff; count:1000"></a-entity>\
-    <a-sphere id="sun" position="0 0 -8000" material="color:#fdb813; emissive:#fdb813" geometry="radius:500" ></a-sphere>
+    <a-entity id="ambient-light" light="type: point; intensity: 0.05"></a-entity>
+    <a-sphere id="sun" light="type: hemisphere; color: #fdb813; intensity: 0.4;" position="0 0 -8000" material="emissive:#fdb813" geometry="radius:500" ></a-sphere>
     <a-sphere id="planet" position="0 0 1000" material="color:#50ff50; emissive:#50ff50" geometry="radius:300" ></a-sphere>
 
 
@@ -53,38 +64,40 @@
           rotationAngleSpread: 0;
           accelerationValue: 0 0.00001 0;
           accelerationSpread: 0 0.00001 0;
-          velocityValue: 0 0 -2
+          velocityValue: 0 -100 0
           velocitySpread: 0 0.0001 0;
           dragValue: 0 0 0;
           dragSpread: 0 0.00001 0;
-          dragRandomise: false;
+          dragRandomize: false;
           color: #ffffff;
           size: 0.2;
           direction: 1;
-          duration: null;
+          duration: 5;
           enabled: true;
           particleCount: 500;
-          randomizse: false;
+          randomize: false;
           opacity: 0.4;
           texture: /images/speed-particle.png;
           ">
       </a-entity>
-      <a-entity id="escape-pod-wrapper" escape-pod>
 
-        <a-entity id="escape-pod" scale="0.001 0.001 0.001" rotation="-90 -180 0" obj-model="obj: #escape-pod-asset" material="color: #504050;"></a-entity>
-        <a-entity id="control-knob" control-knob position="-0.4 1 -0.4" scale="0.0008 0.0008 0.0008" rotation="-90 60 0" obj-model="obj: #control-knob-asset" hoverable></a-entity>
+
+      <!-- Escape Pod Wrapper -->
+      <a-entity id="escape-pod-wrapper" escape-pod>
+        <a-entity gltf-model="#monster" position="0 5 -6" scale="1 1 1" rotation="0 180 0" material="color: #282228"></a-entity>
+
+        <a-entity id="escape-pod" mixin="escape-pod-mix"></a-entity>
+        <a-entity id="control-knob" position="-0.4 1 -0.4" scale="1 1 1" rotation="0 -120 0" obj-model="obj: #control-knob-asset">
+          <a-sphere id="control-knob-hitbox" control-knob-collider radius="0.05" position="0 0.5 -0.14" hoverable ></a-sphere>
+        </a-entity>
         <a-entity id="camera" position="0 1.8 0.5" camera look-controls wasd-controls="fly: true">
             <!-- <a-entity gltf-model="#helmet" position="0 -0.15 0" scale="0.01 0.01 0.01" rotation="0 180 0"></a-entity> -->
-            <a-log position="0 0 -3"></a-log>
+            <!-- <a-log position="0 0 -3"></a-log> -->
         </a-entity>
-        <a-entity sphere-collider="objects: #control-knob; radius: 2;" super-hands hand-controls="left"></a-entity>
-        <a-entity sphere-collider="objects: #control-knob; radius: 2;" super-hands hand-controls="right"></a-entity>
-        <a-light type="point" color="#ff50ff" intensity="0.1" position="0 1.99 0"></a-light>
       </a-entity>
 
-    </a-entity>
-    </a-entity rotation="90 180 90">
-      <!-- <a-entity id="camera" posistion="-2 1.8 8" camera look-controls rotation="0 180 0" wasd-controls="fly: true"></a-entity> -->
+      <a-entity sphere-collider="objects: #control-knob-hitbox;" super-hands hand-controls="left"></a-entity>
+      <a-entity sphere-collider="objects: #control-knob-hitbox;" super-hands hand-controls="right"></a-entity>
     </a-entity>
     <!-- <a-sound src="#ambient-wario" autoplay="true" position="0 0 -2"></a-sound> -->
   </a-scene>
