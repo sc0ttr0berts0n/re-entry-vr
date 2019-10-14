@@ -3,7 +3,5 @@ AFRAME.registerComponent('escape-pod-stage', {
     console.log('escape-pod-stage init');
   },
 
-  tick: function(oldData) {
-    // this.el.object3D.position.z += 0.0925;
-  }
+  tick: function(oldData) {}
 });

@@ -1,3 +1,1 @@
-// require('AFRAME');
-// require('aframe-star-system-component');
-// require('./components/escape-pod.js');
+// this file left intentionally blank
