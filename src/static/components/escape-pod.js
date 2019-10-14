@@ -3,9 +3,16 @@ AFRAME.registerComponent('escape-pod', {
     console.log('hello');
   },
 
-  tick: function(oldData) {
-    // this.el.object3D.rotation.z += 0.0025;
-    // this.el.object3D.rotation.y += 0.01;
+  tick: function(time) {
+    const object3D = this.el.object3D;
+    const flipTime = 20000;
+    if (
+      time - gameState.moments.ejectLeverPull > flipTime &&
+      gameState.ejectLever.isTriggered &&
+      object3D.rotation.x > -3.14
+    ) {
+      object3D.rotation.x += -0.003;
+    }
   },
   update: function() {}
 });

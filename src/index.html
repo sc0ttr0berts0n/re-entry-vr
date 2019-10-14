@@ -11,19 +11,38 @@
   <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/v4.1.2/dist/aframe-extras.min.js"></script>
   <script src="https://unpkg.com/super-hands@3.0.0/dist/super-hands.min.js"></script>
   <script src="https://unpkg.com/aframe-log-component/dist/aframe-log-component.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-physics-system/v4.0.1/dist/aframe-physics-system.min.js"></script>
   <script src="/components/escape-pod.js"></script>
   <script src="/components/escape-pod-stage.js"></script>
   <script src="/components/control-knob.js"></script>
+  <script src="/components/eject-lever.js"></script>
+  <script src="/components/eject-lever-pivot.js"></script>
+  <script src="/components/monster.js"></script>
+  <script src="/components/planet.js"></script>
+  <script src="/components/mothership.js"></script>
+  <script src="/components/timer.js"></script>
   <title>A-Frame Boilerplate</title>
 </head>
 <body>
-  <a-scene loading-screen stats>
-    <a-assets>
-      <audio id="ambient-wario" src="/audio/ambient-wario.mp3"></audio>
+  <a-scene loading-screen stats light="defaultLightsEnabled: false" physics="gravity: 0; iterations: 20" timer>
+    <a-assets timeout="10000">
+      <audio id="music-danger-none" src="/audio/music-danger-none.ogg"></audio>
+      <audio id="monster-attack-01" src="/audio/monster-attack-01.ogg"></audio>
+      <audio id="ship-ambience" src="/audio/ship-ambience.ogg"></audio>
+      <audio id="ship-launch" src="/audio/ship-launch-02.ogg"></audio>
       <img src="/images/speed-particle.png" id="speed-particle" />
       <a-asset-item id="control-knob-asset" src="/models/control-knob.obj"></a-asset-item>
+      <a-asset-item id="eject-lever-obj" src="/models/eject-lever.obj"></a-asset-item>
       <a-asset-item id="helmet" src="/models/astronaut_helmet/scene.gltf"></a-asset-item>
       <a-asset-item id="monster" src="/models/monster.glb"></a-asset-item>
+
+      <!-- Planet Assets -->
+      <img id="planet-mat-base" src="/materials/planet/surface.png" />
+      <img id="planet-mat-cloud-base" src="/materials/planet/clouds-alpha.png" />
+
+      <!-- Mothership Assets -->
+      <a-asset-item id="mothership-obj" src="/models/mothership.obj"></a-asset-item>
+
 
       <!-- Escape Pod Assets -->
       <a-asset-item id="escape-pod-asset" src="/models/escape-pod.obj"></a-asset-item>
@@ -33,8 +52,20 @@
       <img id="escape-pod-mat-roughness" src="/materials/escape-pod/metalgrid3_roughness.png" />
       <a-mixin
         id="escape-pod-mix"
-        material="color: #eeeeff;  src: #escape-pod-mat-base; repeat: 0.01 0.01; normalMap: #escape-pod-mat-normal; normalScale: 0.5 0.5; normalTextureRepeat: 100 100; metalnessMap: #escape-pod-mat-metallic; metalness: 0.6; metalnessTextureRepeat: 100 100 roughnessMap: #escape-pod-mat-roughness; roughness: 0.1; roughnessTextureRepeat: 100 100"
+        material="color: #eeeeff;
+          wireframe: false;
+          repeat: 0.01 0.01;
+
+          normalScale: 0.5 0.5;
+          normalTextureRepeat: 100 100;
+
+          metalness: 0.5;
+          metalnessTextureRepeat: 100 100;
+
+          roughness: 0.5;
+          roughnessTextureRepeat: 100 100"
         obj-model="obj: #escape-pod-asset"
+        shadow="cast: false; receive: false;"
       >
       </a-mixin>
     </a-assets>
@@ -42,39 +73,47 @@
     <!-- Controllers -->
 
     <!-- Far Assets -->
-    <a-sky id="starfield-background" material="color:#15001a" radius="10000"></a-sky>
-    <a-entity id="starfield-stars" star-system="color: #b0b0ff; count:1000"></a-entity>\
-    <a-entity id="ambient-light" light="type: point; intensity: 0.05"></a-entity>
-    <a-sphere id="sun" light="type: hemisphere; color: #fdb813; intensity: 0.4;" position="0 0 -8000" material="emissive:#fdb813" geometry="radius:500" ></a-sphere>
-    <a-sphere id="planet" position="0 0 1000" material="color:#50ff50; emissive:#50ff50" geometry="radius:300" ></a-sphere>
+    <a-sky id="starfield-background" material="color:#080010" radius="10000"></a-sky>
+    <a-entity id="starfield-stars" star-system="color: #b0b0ff; count:1000; radius: 6000; depth: 1000;"></a-entity>
+    <a-sphere id="sun" position="-3000 -5000 -5000" material="emissive:#ff2828" geometry="radius:500" ></a-sphere>
+    <a-entity id="sun-light" light="type: directional; color: #aa2828; intensity: 0.8; castShadow: true;" position="-3 -5 -5"></a-entity>
+    <a-entity id="ambient-light" light="type: point; intensity: 0.025"></a-entity>
+    <a-entity id="planet" planet position="0 0 7000" material="color:#ff00ff; emissive: #ff00ff; emissiveIntensity: 0.05; src: #planet-mat-base;"  geometry="radius:2000; primitive: icosahedron; detail: 4;" >
+      <a-entity id="planet-clouds" material="src: #planet-mat-cloud-base; color: #ffffff; emissive: #ffccff; emissiveIntensity: 0.5; opacity: 1; transparent: true; side: double;" geometry="radius:2050; primitive: icosahedron; detail: 4;" ></a-entity></a-entity>
+    </a-entity>
 
+    <!-- The Monster -->
+    <a-entity id="monster" gltf-model="#monster" monster position="0 5 -8" scale="1 1 1" rotation="0 0 0" material="color: #282228" animation-mixer></a-entity>
+
+    <!-- The Mothership -->
+    <a-entity id="mothership" mothership obj-model="obj: #mothership-obj" scale="0.1 0.1 0.1" position="-2 -4 3" material="color: #282228"></a-entity>
 
     <!-- Reference Frame -->
-    <a-entity id="escape-pod-stage" position="0 0 -4" rotation="0 0 0" escape-pod-stage>
+    <a-entity id="escape-pod-stage" position="0 0 0" rotation="0 0 0" escape-pod-stage>
 
       <a-entity
         id="particle-system"
         position="0 5 0"
         particle-system="
-          maxAge: 1;
+          maxAge: 2;
           positionSpread: 50 50 50;
           type: 3;
           rotationAxis: x;
           rotationAngle: 0;
           rotationAngleSpread: 0;
-          accelerationValue: 0 0.00001 0;
-          accelerationSpread: 0 0.00001 0;
-          velocityValue: 0 -100 0
-          velocitySpread: 0 0.0001 0;
+          accelerationValue: 0 0 0.00001;
+          accelerationSpread: 0 0 0.00001;
+          velocityValue: 0 0 -40
+          velocitySpread: 0 0 0.00001;
           dragValue: 0 0 0;
-          dragSpread: 0 0.00001 0;
+          dragSpread: 0 0 0.00001;
           dragRandomize: false;
           color: #ffffff;
           size: 0.2;
           direction: 1;
-          duration: 5;
+          duration: false;
           enabled: true;
-          particleCount: 500;
+          particleCount: 250;
           randomize: false;
           opacity: 0.4;
           texture: /images/speed-particle.png;
@@ -84,22 +123,37 @@
 
       <!-- Escape Pod Wrapper -->
       <a-entity id="escape-pod-wrapper" escape-pod>
-        <a-entity gltf-model="#monster" position="0 5 -6" scale="1 1 1" rotation="0 180 0" material="color: #282228"></a-entity>
 
-        <a-entity id="escape-pod" mixin="escape-pod-mix"></a-entity>
-        <a-entity id="control-knob" position="-0.4 1 -0.4" scale="1 1 1" rotation="0 -120 0" obj-model="obj: #control-knob-asset">
-          <a-sphere id="control-knob-hitbox" control-knob-collider radius="0.05" position="0 0.5 -0.14" hoverable ></a-sphere>
+        <a-entity id="escape-pod" scale="1 0.8888 1" mixin="escape-pod-mix">
+          <!-- <a-entity id="control-knob" position="-0.4 1 -0.4" scale="1 1 1" rotation="0 -120 0" obj-model="obj: #control-knob-asset">
+            <a-sphere id="control-knob-hitbox" control-knob-collider radius="0.05" position="0 0.5 -0.14" hoverable ></a-sphere>
+          </a-entity> -->
+          <a-entity id="eject-lever-pivot" eject-lever-pivot="rotation: 0" position="0 2.35 0">
+            <a-entity
+              id="eject-lever"
+              clickable
+              eject-lever="parent: #eject-lever-pivot"
+              rotation="0 180 0"
+              material="color: #ff5050; emissive: #ff5000;"
+              obj-model="obj: #eject-lever-obj"
+            ></a-entity>
+          </a-entity>
         </a-entity>
-        <a-entity id="camera" position="0 1.8 0.5" camera look-controls wasd-controls="fly: true">
-            <!-- <a-entity gltf-model="#helmet" position="0 -0.15 0" scale="0.01 0.01 0.01" rotation="0 180 0"></a-entity> -->
-            <!-- <a-log position="0 0 -3"></a-log> -->
-        </a-entity>
-      </a-entity>
 
-      <a-entity sphere-collider="objects: #control-knob-hitbox;" super-hands hand-controls="left"></a-entity>
-      <a-entity sphere-collider="objects: #control-knob-hitbox;" super-hands hand-controls="right"></a-entity>
+        <a-entity id="camera" position="0 1.75 0.5" camera="far:13000; near:0.1" look-controls wasd-controls="fly: true" >
+        </a-entity>
+
+      <a-entity sphere-collider="objects: #eject-lever; radius: 0.005;" super-hands hand-controls="left"></a-entity>
+      <a-entity sphere-collider="objects: #eject-lever; radius: 0.005;" super-hands hand-controls="right"></a-entity>
+
+      <!-- Escape Pod Audio -->
+      <a-sound id="ship-launch-entity" src="#ship-launch" loop="false" volume="1" autoplay="false" position="0 0 0"></a-sound>
+
     </a-entity>
-    <!-- <a-sound src="#ambient-wario" autoplay="true" position="0 0 -2"></a-sound> -->
+    <!-- <a-sound src="#music-danger-none" loop="true" autoplay="true" position="0 0 0"></a-sound> -->
+    <!-- <a-sound src="#monster-attack-01" autoplay="true" position="0 0 0"></a-sound> -->
+    <!-- <a-sound src="#ship-ambience" loop="true" volume="0.1" autoplay="true" position="0 0 0"></a-sound> -->
   </a-scene>
+  <script src="/game-state.js"></script>
 </body>
 </html>
