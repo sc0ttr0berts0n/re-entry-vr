@@ -4,9 +4,7 @@ AFRAME.registerComponent('eject-lever', {
     parent: { type: 'selector' },
     leverPullAudio: { type: 'audio', default: '#ship-launch' }
   },
-  init: function() {
-    console.log('eject-lever init');
-  },
+  init: function() {},
 
   tick: function(oldData) {
     if (this.data.isHovered) {
@@ -28,18 +26,18 @@ AFRAME.registerComponent('eject-lever', {
         sound.components.sound.playSound();
       }
       if (gameState.ejectLever.angle > 0) {
-        gameState.ejectLever.angle += -0.05;
+        gameState.ejectLever.angle += -0.025;
         this.el.object3D.rotation.x = gameState.ejectLever.angle;
       }
     }
   },
   tock: function() {},
   update: function() {
-    if (this.data.isHovered) {
-      this.el.setAttribute('material', 'emissiveIntensity', 0.3);
-    } else {
-      this.el.setAttribute('material', 'emissiveIntensity', 0);
-    }
+    // if (this.data.isHovered) {
+    //   this.el.setAttribute('material', 'emissiveIntensity', 0.3);
+    // } else {
+    //   this.el.setAttribute('material', 'emissiveIntensity', 0);
+    // }
   },
   play: function() {
     this.el.addEventListener('grab-start', this.onGrabStart);

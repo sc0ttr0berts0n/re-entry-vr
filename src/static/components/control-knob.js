@@ -3,9 +3,7 @@ AFRAME.registerComponent('control-knob', {
     color: { default: '#ff5000' },
     isHovered: { default: false }
   },
-  init: function() {
-    console.log('control-knob init');
-  },
+  init: function() {},
   update: function() {
     this.el.setAttribute('material', 'color', this.data.color);
     this.el.setAttribute('material', 'emissive', '#ff5000');

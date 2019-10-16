@@ -1,7 +1,5 @@
 AFRAME.registerComponent('escape-pod', {
-  init: function() {
-    console.log('hello');
-  },
+  init: function() {},
 
   tick: function(time) {
     const object3D = this.el.object3D;

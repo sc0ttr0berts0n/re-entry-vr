@@ -1,7 +1,5 @@
 AFRAME.registerComponent('planet', {
-  init: function() {
-    console.log('planet init');
-  },
+  init: function() {},
 
   tick: function(oldData) {
     // this.el.object3D.rotation.z += 0.0025;
@@ -13,8 +11,5 @@ AFRAME.registerComponent('planet', {
       this.el.object3D.position.z += -0.8;
     }
   },
-  update: function() {
-    var clouds = this.el;
-    console.log(clouds.components);
-  }
+  update: function() {}
 });

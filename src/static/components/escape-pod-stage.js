@@ -1,7 +1,5 @@
 AFRAME.registerComponent('escape-pod-stage', {
-  init: function() {
-    console.log('escape-pod-stage init');
-  },
+  init: function() {},
 
   tick: function(oldData) {}
 });

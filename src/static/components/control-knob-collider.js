@@ -3,9 +3,7 @@ AFRAME.registerComponent('control-knob-collider', {
   schema: {
     parent: { type: 'selector' }
   },
-  init: function() {
-    console.log('control-knob init');
-  },
+  init: function() {},
   update: function() {},
   tick: function(oldData) {},
   play: function() {

@@ -1,7 +1,5 @@
 AFRAME.registerComponent('monster', {
-  init: function() {
-    console.log('hello');
-  },
+  init: function() {},
 
   tick: function(oldData) {
     // this.el.object3D.rotation.z += 0.0025;
