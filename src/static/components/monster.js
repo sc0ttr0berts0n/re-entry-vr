@@ -1,9 +1,14 @@
 AFRAME.registerComponent('monster', {
   init: function() {},
 
-  tick: function(oldData) {
-    // this.el.object3D.rotation.z += 0.0025;
-    // this.el.object3D.rotation.y += 0.01;
+  tick: function(time) {
+    const obj = this.el.object3D;
+    const gs = gameState.monster;
+    const rad = gs.radius;
+
+    rad.actual += (rad.target - rad.actual) * gs.lerp;
+
+    obj.position.z = -rad.actual;
   },
   update: function() {}
 });

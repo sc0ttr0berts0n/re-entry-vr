@@ -1,12 +1,9 @@
-AFRAME.registerComponent('escape-pod', {
-  schema: {
-    state: { type: 'string', default: 'docked' }
-  },
+AFRAME.registerComponent('monster-pivot', {
   init: function() {},
 
   tick: function(time) {
     const obj = this.el.object3D;
-    const gs = gameState.escapePod;
+    const gs = gameState.monster;
     const rot = gs.rotation;
 
     rot.pos.x += rot.acc.x;
@@ -25,8 +22,5 @@ AFRAME.registerComponent('escape-pod', {
     rot.acc.y *= gs.friction;
     rot.acc.z *= gs.friction;
   },
-  update: function() {},
-  clamp: function clamp(num, min, max) {
-    return num <= min ? min : num >= max ? max : num;
-  }
+  update: function() {}
 });
