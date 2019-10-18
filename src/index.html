@@ -26,13 +26,11 @@
   <title>Re-Entry</title>
 </head>
 <body>
-  <a-scene loading-screen stats light="defaultLightsEnabled: false" physics="gravity: 0; iterations: 20" timer>
+  <a-scene loading-screen light="defaultLightsEnabled: false" timer>
     <a-assets timeout="10000">
-      <audio id="music-danger-none" src="/audio/music-danger-none.ogg"></audio>
-      <audio id="monster-attack-01" src="/audio/monster-attack-01.ogg"></audio>
+      <!-- Audio Assets -->
       <audio id="ship-ambience" src="/audio/ship-ambience.ogg"></audio>
       <audio id="ship-launch" src="/audio/ship-launch-02.ogg"></audio>
-      <audio id="music-before-launch" src="/audio/music-before-launch.ogg"></audio>
       <audio id="mothership-explosion" src="/audio/explosion-far-01.ogg"></audio>
       <audio id="monster-die" src="/audio/monster-die.ogg"></audio>
       <audio id="monster-attack-01" src="/audio/monster-attack-01.ogg"></audio>
@@ -41,16 +39,18 @@
       <audio id="ship-slam-01" src="/audio/ship-slam-01.ogg"></audio>
       <audio id="ship-slam-02" src="/audio/ship-slam-02.ogg"></audio>
       <audio id="ship-reentry" src="/audio/ship-reentry.ogg"></audio>
+      <audio id="music-before-launch" src="/audio/music-before-launch.ogg"></audio>
       <audio id="music-danger-none" src="/audio/music-danger-none.ogg"></audio>
       <audio id="music-danger-low" src="/audio/music-danger-low.ogg"></audio>
       <audio id="music-danger-high" src="/audio/music-danger-high.ogg"></audio>
       <audio id="music-win" src="/audio/music-win.ogg"></audio>
-      <audio id="mothership-explosion" src="/audio/explosion-far-01.ogg"></audio>
+
+      <!-- Image Assets -->
       <img src="/images/speed-particle.png" id="speed-particle" />
       <img src="/images/title-thicc.png" id="title-asset" />
-      <a-asset-item id="control-knob-asset" src="/models/control-knob.obj"></a-asset-item>
+
+      <!-- Assorted Objects -->
       <a-asset-item id="eject-lever-obj" src="/models/eject-lever.obj"></a-asset-item>
-      <a-asset-item id="helmet" src="/models/astronaut_helmet/scene.gltf"></a-asset-item>
       <a-asset-item id="monster" src="/models/monster-final.glb"></a-asset-item>
 
       <!-- Planet Assets -->
@@ -60,13 +60,14 @@
       <!-- Mothership Assets -->
       <a-asset-item id="mothership-obj" src="/models/mothership.obj"></a-asset-item>
 
-
       <!-- Escape Pod Assets -->
       <a-asset-item id="escape-pod-asset" src="/models/escape-pod.obj"></a-asset-item>
       <img id="escape-pod-mat-base" src="/materials/escape-pod/metalgrid3_basecolor.png" />
       <img id="escape-pod-mat-metallic" src="/materials/escape-pod/metalgrid3_metallic.png" />
       <img id="escape-pod-mat-normal" src="/materials/escape-pod/metalgrid3_normal-dx.png" />
       <img id="escape-pod-mat-roughness" src="/materials/escape-pod/metalgrid3_roughness.png" />
+
+      <!-- Mixins -->
       <a-mixin
         id="escape-pod-mix"
         material="color: #eeeeff;
@@ -85,6 +86,7 @@
         shadow="cast: false; receive: false;"
       ></a-mixin>
 
+      <!-- Particle System Mixins -->
       <a-mixin id="particle-star-streaks"
         particle-system="
           maxAge: 2;
@@ -220,8 +222,6 @@
 
     </a-assets>
 
-    <!-- Controllers -->
-
     <!-- Far Assets -->
     <a-sky id="starfield-background" material="color:#080010" radius="10000"></a-sky>
     <a-entity id="starfield-stars" star-system="color: #b0b0ff; count:1000; radius: 6000; depth: 1000;"></a-entity>
@@ -267,15 +267,10 @@
       <!-- Escape Pod Wrapper -->
       <a-entity id="escape-pod-wrapper" escape-pod>
 
-        <!-- <a-entity id="ambient-light" light="type: point; intensity: 1; color: #000"></a-entity> -->
-        <a-sound id="mothership-explosion-entity" src="#mothership-explosion" loop="false" volume="8" autoplay="false" position="0 0 -5"></a-sound>
-
-
-
         <!-- Title -->
         <a-image id="title" title-slide src="#title-asset" opacity="1" position="0 1.65 -0.5" scale="0.3 0.3 0.3"></a-image>
 
-        <!-- Thruster cluster -->
+        <!-- Thruster cluster  -->
         <a-entity id="thruster-lower-left" thruster="pos: lowerLeft" position="-0.15 0.75 -0.9" rotation="0 15 0" mixin="particle-pod-thruster"></a-entity>
         <a-entity id="thruster-lower-right" thruster="pos: lowerRight" position="0.15 0.75 -0.9" rotation="0 -15 0" mixin="particle-pod-thruster"></a-entity>
         <a-entity id="thruster-upper-left" thruster="pos: upperLeft" position="-0.35 2.25 -0.7" rotation="10 15 0" mixin="particle-pod-thruster"></a-entity>
@@ -286,6 +281,7 @@
         <a-entity id="reentry" reentry position="-0.75 0 1.2" rotation="0 120 0" mixin="particle-reentry"></a-entity>
         <a-entity id="reentry" reentry position="0.75 0 1.2" rotation="0 240 0" mixin="particle-reentry"></a-entity>
 
+        <!-- Escape Pod -->
         <a-entity id="escape-pod" temp scale="1 0.8888 1" mixin="escape-pod-mix">
           <a-entity id="eject-lever-pivot" position="0 2.35 0">
             <a-entity
@@ -299,15 +295,15 @@
           </a-entity>
         </a-entity>
 
-        <!-- <a-entity id="camera" position="-5 11.75 20" camera="far:13000; near:0.1" look-controls wasd-controls="fly: true; acceleration: 300" ></a-entity> -->
+        <!-- Camera -->
         <a-entity id="camera" position="0 1.75 0" camera="far:13000; near:0.1" look-controls wasd-controls="fly: true; acceleration: 300" ></a-entity>
-
 
         <!-- Controllers -->
         <a-entity sphere-collider="objects: #eject-lever; radius: 0.005;" super-hands hand-controls="left"></a-entity>
         <a-entity sphere-collider="objects: #eject-lever; radius: 0.005;" super-hands hand-controls="right"></a-entity>
 
         <!-- Escape Pod Audio -->
+        <a-sound id="mothership-explosion-entity" src="#mothership-explosion" loop="false" volume="8" autoplay="false" position="0 0 -5"></a-sound>
         <a-sound id="ship-launch-entity" src="#ship-launch" loop="false" volume="5" autoplay="false" position="0 0 -1"></a-sound>
         <a-sound id="ship-slam-01-entity" src="#ship-slam-01" loop="false" volume="8" autoplay="false" position="0 0 -1"></a-sound>
         <a-sound id="ship-slam-02-entity" src="#ship-slam-02" loop="false" volume="4" autoplay="false" position="0 0 -1"></a-sound>
@@ -318,11 +314,7 @@
         <a-entity id="music-win-entity" sound="src: #music-win; loop: false; volume: 0.9; autoplay: false; positional: false;" position="0 0 -1"></a-entity>
 
       </a-entity>
-
-    <!-- <a-sound src="#music-danger-none" loop="true" autoplay="true" position="0 0 0"></a-sound> -->
-    <!-- <a-sound src="#monster-attack-01" autoplay="true" position="0 0 0"></a-sound> -->
-    <!-- <a-sound src="#ship-ambience" loop="true" volume="0.1" autoplay="true" position="0 0 0"></a-sound> -->
   </a-scene>
-  <script src="/game-state.js"></script>
+  <script src="./game-state.js"></script>
 </body>
 </html>
