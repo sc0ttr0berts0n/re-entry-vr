@@ -5,7 +5,7 @@ var path = require('path');
 var port = process.env.PORT || 3000;
 var app = express();
 
-app.use(express.static(path.join(__dirname, 'build')));
+app.use(express.static(path.join(__dirname, 'src')));
 
 app.listen(port, err => {
   if (err) {
