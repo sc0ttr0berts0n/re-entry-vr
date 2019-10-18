@@ -28,7 +28,8 @@
 <body>
   <a-scene loading-screen light="defaultLightsEnabled: false" timer>
     <a-assets timeout="10000">
-      <!-- Audio Assets -->
+
+      <!-- Audio Assets 🎧 -->
       <audio id="ship-ambience" src="/audio/ship-ambience.ogg"></audio>
       <audio id="ship-launch" src="/audio/ship-launch-02.ogg"></audio>
       <audio id="mothership-explosion" src="/audio/explosion-far-01.ogg"></audio>
@@ -45,22 +46,22 @@
       <audio id="music-danger-high" src="/audio/music-danger-high.ogg"></audio>
       <audio id="music-win" src="/audio/music-win.ogg"></audio>
 
-      <!-- Image Assets -->
+      <!-- Image Assets 🌄 -->
       <img src="/images/speed-particle.png" id="speed-particle" />
       <img src="/images/title-thicc.png" id="title-asset" />
 
-      <!-- Assorted Objects -->
+      <!-- Assorted Objects 📦 -->
       <a-asset-item id="eject-lever-obj" src="/models/eject-lever.obj"></a-asset-item>
       <a-asset-item id="monster" src="/models/monster-final.glb"></a-asset-item>
 
-      <!-- Planet Assets -->
+      <!-- Planet Assets 🌏 -->
       <img id="planet-mat-base" src="/materials/planet/surface.png" />
       <img id="planet-mat-cloud-base" src="/materials/planet/clouds-alpha.png" />
 
-      <!-- Mothership Assets -->
+      <!-- Mothership Assets ♀ -->
       <a-asset-item id="mothership-obj" src="/models/mothership.obj"></a-asset-item>
 
-      <!-- Escape Pod Assets -->
+      <!-- Escape Pod Assets 🚀 -->
       <a-asset-item id="escape-pod-asset" src="/models/escape-pod.obj"></a-asset-item>
       <img id="escape-pod-mat-base" src="/materials/escape-pod/metalgrid3_basecolor.png" />
       <img id="escape-pod-mat-metallic" src="/materials/escape-pod/metalgrid3_metallic.png" />
@@ -86,7 +87,7 @@
         shadow="cast: false; receive: false;"
       ></a-mixin>
 
-      <!-- Particle System Mixins -->
+      <!-- Particle System Mixins ✨ -->
       <a-mixin id="particle-star-streaks"
         particle-system="
           maxAge: 2;
@@ -222,7 +223,7 @@
 
     </a-assets>
 
-    <!-- Far Assets -->
+    <!-- Far Assets 🔭 -->
     <a-sky id="starfield-background" material="color:#080010" radius="10000"></a-sky>
     <a-entity id="starfield-stars" star-system="color: #b0b0ff; count:1000; radius: 6000; depth: 1000;"></a-entity>
     <a-sphere id="sun" position="-3000 -5000 -5000" material="emissive:#ff2828" geometry="radius:500" ></a-sphere>
@@ -232,7 +233,7 @@
       <a-entity id="planet-clouds" material="src: #planet-mat-cloud-base; color: #ffffff; emissive: #ffccff; emissiveIntensity: 0.5; opacity: 1; transparent: true; side: double;" geometry="radius:2050; primitive: icosahedron; detail: 4;" ></a-entity></a-entity>
     </a-entity>
 
-    <!-- The Mothership -->
+    <!-- The Mothership ♀ -->
     <a-entity
       id="mothership"
       mothership
@@ -253,7 +254,7 @@
 
       <a-entity id="particle-system" position="0 5 0" mixin="particle-star-streaks"></a-entity>
 
-      <!-- The Monster -->
+      <!-- The Monster 🦑 -->
       <a-entity id="monster-pivot" monster-pivot rotation="0 0 0">
         <a-entity id="monster" monster gltf-model="#monster"  position="0 5 0" material="color: #282228" animation-mixer>
           <a-sound id="monster-die-entity" src="#monster-die" loop="false" volume="20" autoplay="false"></a-sound>
@@ -270,18 +271,18 @@
         <!-- Title -->
         <a-image id="title" title-slide src="#title-asset" opacity="1" position="0 1.65 -0.5" scale="0.3 0.3 0.3"></a-image>
 
-        <!-- Thruster cluster  -->
+        <!-- Thruster cluster 🎇 -->
         <a-entity id="thruster-lower-left" thruster="pos: lowerLeft" position="-0.15 0.75 -0.9" rotation="0 15 0" mixin="particle-pod-thruster"></a-entity>
         <a-entity id="thruster-lower-right" thruster="pos: lowerRight" position="0.15 0.75 -0.9" rotation="0 -15 0" mixin="particle-pod-thruster"></a-entity>
         <a-entity id="thruster-upper-left" thruster="pos: upperLeft" position="-0.35 2.25 -0.7" rotation="10 15 0" mixin="particle-pod-thruster"></a-entity>
         <a-entity id="thruster-upper-right" thruster="pos: upperRight" position="0.35 2.25 -0.7" rotation="10 -15 0" mixin="particle-pod-thruster"></a-entity>
 
-        <!-- Re-entry effect -->
+        <!-- Re-entry effect 🔥 -->
         <a-entity id="reentry" reentry position="0 0 -1.5" rotation="0 0 0" mixin="particle-reentry"></a-entity>
         <a-entity id="reentry" reentry position="-0.75 0 1.2" rotation="0 120 0" mixin="particle-reentry"></a-entity>
         <a-entity id="reentry" reentry position="0.75 0 1.2" rotation="0 240 0" mixin="particle-reentry"></a-entity>
 
-        <!-- Escape Pod -->
+        <!-- Escape Pod 🚀 -->
         <a-entity id="escape-pod" temp scale="1 0.8888 1" mixin="escape-pod-mix">
           <a-entity id="eject-lever-pivot" position="0 2.35 0">
             <a-entity
@@ -295,14 +296,14 @@
           </a-entity>
         </a-entity>
 
-        <!-- Camera -->
+        <!-- Camera 🎥 -->
         <a-entity id="camera" position="0 1.75 0" camera="far:13000; near:0.1" look-controls wasd-controls="fly: true; acceleration: 300" ></a-entity>
 
-        <!-- Controllers -->
+        <!-- Controllers 🕹 -->
         <a-entity sphere-collider="objects: #eject-lever; radius: 0.005;" super-hands hand-controls="left"></a-entity>
         <a-entity sphere-collider="objects: #eject-lever; radius: 0.005;" super-hands hand-controls="right"></a-entity>
 
-        <!-- Escape Pod Audio -->
+        <!-- Escape Pod Audio 🎶 -->
         <a-sound id="mothership-explosion-entity" src="#mothership-explosion" loop="false" volume="8" autoplay="false" position="0 0 -5"></a-sound>
         <a-sound id="ship-launch-entity" src="#ship-launch" loop="false" volume="5" autoplay="false" position="0 0 -1"></a-sound>
         <a-sound id="ship-slam-01-entity" src="#ship-slam-01" loop="false" volume="8" autoplay="false" position="0 0 -1"></a-sound>
